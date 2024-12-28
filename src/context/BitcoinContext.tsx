@@ -45,7 +45,7 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
           method: 'GET',
           headers: {
             accept: 'application/json',
-            'x-cg-demo-api-key': 'CG-XcnKmXvKxaX8ZVoNcTWagtoR'
+            'x-cg-demo-api-key': import.meta.env.REACT_APP_CG_API_KEY ?? "CG-XcnKmXvKxaX8ZVoNcTWagtoR"
           }
         });
         const data = await response.json();
@@ -63,7 +63,7 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
           method: 'GET',
           headers: {
             accept: 'application/json',
-            'x-cg-demo-api-key': 'CG-XcnKmXvKxaX8ZVoNcTWagtoR'
+            'x-cg-demo-api-key': import.meta.env.REACT_APP_CG_API_KEY ?? "CG-XcnKmXvKxaX8ZVoNcTWagtoR"
           }
         });
         const data = await response.json();
