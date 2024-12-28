@@ -20,7 +20,7 @@ const Image = styled.img`
   object-fit: contain;
 `;
 
-const PriceChange = styled(Title) <{ isPositive: boolean }>`
+const PriceChange = styled(Title)<{ isPositive: boolean }>`
   color: ${({ isPositive }) => (isPositive ? '#67BF6B' : 'red')};
   font-size: 18px;
   font-weight: 400;
@@ -43,7 +43,6 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   cursor: pointer;
   color: #6F7177;
   padding: 1rem 2rem;
-  cursor: pointer;
   ${({ isSelected }) =>
     isSelected &&
     `
@@ -72,26 +71,33 @@ const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeCom
     return <div>Loading...</div>;
   }
 
+  const { image, market_data } = bitcoinData;
+  const { current_price, price_change_24h, price_change_percentage_24h } = market_data;
+
   return (
     <>
       <Container>
-        <Image src={bitcoinData.image.large} alt="Bitcoin" />
+        <Image src={image.large} alt="Bitcoin" />
         <div>
           <Title>
-            {bitcoinData.market_data.current_price.usd}
+            {current_price.usd}
             <Currency>USD</Currency>
           </Title>
-          <PriceChange isPositive={parseFloat(bitcoinData.market_data.price_change_24h) >= 0}>
-            {bitcoinData.market_data.price_change_24h} ({bitcoinData.market_data.price_change_percentage_24h}%)
+          <PriceChange isPositive={parseFloat(price_change_24h) >= 0}>
+            {price_change_24h} ({price_change_percentage_24h}%)
           </PriceChange>
         </div>
       </Container>
       <ButtonGroup>
-        <StyledButton isSelected={activeComponent === 'Summary'} onClick={() => setActiveComponent('Summary')}>Summary</StyledButton>
-        <StyledButton isSelected={activeComponent === 'Chart'} onClick={() => setActiveComponent('Chart')}>Chart</StyledButton>
-        <StyledButton isSelected={activeComponent === 'Statistics'} onClick={() => setActiveComponent('Statistics')}>Statistics</StyledButton>
-        <StyledButton isSelected={activeComponent === 'Analysis'} onClick={() => setActiveComponent('Analysis')}>Analysis</StyledButton>
-        <StyledButton isSelected={activeComponent === 'Settings'} onClick={() => setActiveComponent('Settings')}>Settings</StyledButton>
+        {['Summary', 'Chart', 'Statistics', 'Analysis', 'Settings'].map((component) => (
+          <StyledButton
+            key={component}
+            isSelected={activeComponent === component}
+            onClick={() => setActiveComponent(component)}
+          >
+            {component}
+          </StyledButton>
+        ))}
       </ButtonGroup>
     </>
   );
