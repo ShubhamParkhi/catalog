@@ -12,9 +12,14 @@ const Container = styled.div`
   font-family: Circular Std;
   width: 100%;
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: auto;
   border: 1px solid lightgray;
-  border-radius: 1rem;
+  border-radius: 0.75rem; 
+  background-color: #ffffff; 
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  height: 80vh;
+  overflow: hidden;
+  overflow-y: scroll;
 `;
 
 function App() {

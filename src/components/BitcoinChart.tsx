@@ -25,6 +25,7 @@ ChartJS.register(
 
 const Container = styled.div`
   padding: 2rem 0;
+  background-color: white;
 `;
 
 const StyledButton = styled.button<{ isSelected?: boolean }>`
