@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useBitcoin } from '../context/BitcoinContext';
 import { Line } from 'react-chartjs-2';
 import {
@@ -76,29 +76,21 @@ const BitcoinChart = () => {
         }
     };
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
-
-    if (isLoading || !marketChartData) {
-        return <div>Loading chart data...</div>;
-    }
-
-    const data = {
-        labels: marketChartData.prices.map(price =>
+    const data = useMemo(() => ({
+        labels: marketChartData?.prices.map(price =>
             new Date(price[0]).toLocaleDateString()
         ),
         datasets: [
             {
                 label: 'Bitcoin Price (USD)',
-                data: marketChartData.prices.map(price => price[1]),
+                data: marketChartData?.prices.map(price => price[1]),
                 borderColor: 'rgba(75, 64, 238, 1)',
                 tension: 0.5
             }
         ]
-    };
+    }), [marketChartData]);
 
-    const options = {
+    const options = useMemo(() => ({
         responsive: true,
         scales: {
             x: {
@@ -125,7 +117,15 @@ const BitcoinChart = () => {
                 }
             }
         }
-    };
+    }), []);
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    if (isLoading || !marketChartData) {
+        return <div>Loading chart data...</div>;
+    }
 
     return (
         <Container ref={chartRef}>
@@ -150,12 +150,15 @@ const BitcoinChart = () => {
                     </StyledButton>
                 </div>
                 <div>
-                    <StyledButton isSelected={time === 1} onClick={() => setTime(1)}>1d</StyledButton>
-                    <StyledButton isSelected={time === 3} onClick={() => setTime(3)}>3d</StyledButton>
-                    <StyledButton isSelected={time === 7} onClick={() => setTime(7)}>1w</StyledButton>
-                    <StyledButton isSelected={time === 30} onClick={() => setTime(30)}>1m</StyledButton>
-                    <StyledButton isSelected={time === 180} onClick={() => setTime(180)}>6m</StyledButton>
-                    <StyledButton isSelected={time === 365} onClick={() => setTime(365)}>1y</StyledButton>
+                    {[1, 3, 7, 30, 180, 365].map((duration) => (
+                        <StyledButton
+                            key={duration}
+                            isSelected={time === duration}
+                            onClick={() => setTime(duration)}
+                        >
+                            {duration === 1 ? '1d' : duration === 3 ? '3d' : duration === 7 ? '1w' : duration === 30 ? '1m' : duration === 180 ? '6m' : '1y'}
+                        </StyledButton>
+                    ))}
                 </div>
             </ButtonGroup>
             <Line {...{ options, data }} />
