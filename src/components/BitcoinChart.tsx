@@ -56,7 +56,7 @@ const ButtonGroup = styled.div`
 `;
 
 const BitcoinChart = () => {
-    const { marketChartData, isLoading, error, time, setTime } = useBitcoin();
+    const { marketChartData, isLoading, error, time, setTime, currency } = useBitcoin();
     const [isFullScreen, setIsFullScreen] = useState(false);
     const chartRef = useRef<HTMLDivElement>(null);
 
@@ -82,13 +82,13 @@ const BitcoinChart = () => {
         ),
         datasets: [
             {
-                label: 'Bitcoin Price (USD)',
+                label: `Bitcoin Price (${currency.toUpperCase()})`,
                 data: marketChartData?.prices.map(price => price[1]),
                 borderColor: 'rgba(75, 64, 238, 1)',
                 tension: 0.5
             }
         ]
-    }), [marketChartData]);
+    }), [marketChartData, currency]);
 
     const options = useMemo(() => ({
         responsive: true,

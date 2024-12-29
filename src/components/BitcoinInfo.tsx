@@ -61,7 +61,7 @@ interface BitcoinInfoProps {
 }
 
 const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeComponent }) => {
-  const { bitcoinData, error, isLoading } = useBitcoin();
+  const { bitcoinData, error, isLoading, currency } = useBitcoin();
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -80,8 +80,8 @@ const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeCom
         <Image src={image.large} alt="Bitcoin" />
         <div>
           <Title>
-            {current_price.usd}
-            <Currency>USD</Currency>
+            {current_price[currency]}
+            <Currency>{currency.toUpperCase()}</Currency>
           </Title>
           <PriceChange isPositive={parseFloat(price_change_24h) >= 0}>
             {price_change_24h} ({price_change_percentage_24h}%)

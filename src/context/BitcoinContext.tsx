@@ -4,7 +4,14 @@ type BitcoinData = {
   image: { large: string };
   name: string;
   symbol: string;
-  market_data: { current_price: { usd: number }; price_change_24h: string; price_change_percentage_24h: string; ath: { usd: number }; market_cap: { usd: number }; circulating_supply: string};
+  market_data: { 
+    current_price: Record<string, number>;
+    price_change_24h: string;
+    price_change_percentage_24h: string;
+    ath: Record<string, number>;
+    market_cap: Record<string, number>;
+    circulating_supply: string
+  };
   hashing_algorithm: string;
   genesis_date: string;
   market_cap_rank: number;
@@ -27,6 +34,8 @@ type BitcoinContextType = {
   isLoading: boolean;
   time: number;
   setTime: (time: number) => void;
+  currency: string;
+  setCurrency: (currency: string) => void;
 };
 
 const BitcoinContext = createContext<BitcoinContextType | undefined>(undefined);
@@ -35,6 +44,7 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
   const [bitcoinData, setBitcoinData] = useState<BitcoinData | null>(null);
   const [marketChartData, setMarketChartData] = useState<MarketChartData | null>(null);
   const [error, setError] = useState<{ message: string } | null>(null);
+  const [currency, setCurrency] = useState<string>("usd");
   const [isLoading, setIsLoading] = useState(true);
   const [time, setTime] = useState(30);
 
@@ -59,7 +69,7 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchChartData = async () => {
       try {
-        const response = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${time}&interval=daily`, {
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${time}&interval=daily`, {
           method: 'GET',
           headers: {
             accept: 'application/json',
@@ -78,10 +88,10 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
     const intervalId = setInterval(fetchChartData, 1000);
 
     return () => clearInterval(intervalId);
-  }, [time]);
+  }, [time, currency]);
 
   return (
-    <BitcoinContext.Provider value={{ bitcoinData, marketChartData, error, isLoading, time, setTime}}>
+    <BitcoinContext.Provider value={{ bitcoinData, marketChartData, error, isLoading, time, setTime, currency, setCurrency }}>
       {children}
     </BitcoinContext.Provider>
   );
