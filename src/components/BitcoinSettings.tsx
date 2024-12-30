@@ -17,7 +17,9 @@ const Select = styled.select`
 `;
 
 const BitcoinSettings = () => {
-  const { currency, setCurrency } = useBitcoin();
+  const { bitcoinData, currency, setCurrency } = useBitcoin();
+
+  const currencies = bitcoinData?.market_data?.current_price;
 
   const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrency(event.target.value);
@@ -27,10 +29,11 @@ const BitcoinSettings = () => {
     <Container>
       <Label htmlFor="currency-select">Select Currency:</Label>
       <Select id="currency-select" value={currency} onChange={handleCurrencyChange}>
-        <option value="usd">USD</option>
-        <option value="inr">INR</option>
-        <option value="eur">EUR</option>
-        <option value="aed">AED</option>
+        {currencies && Object.keys(currencies).map((currencyCode) => (
+          <option key={currencyCode} value={currencyCode}>
+            {currencyCode.toUpperCase()}
+          </option>
+        ))}
       </Select>
     </Container>
   );
