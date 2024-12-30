@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBitcoin } from '../context/BitcoinContext';
+import { useBitcoin } from '../context/Context';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -17,16 +17,29 @@ const Select = styled.select`
 `;
 
 const BitcoinSettings = () => {
-  const { bitcoinData, currency, setCurrency } = useBitcoin();
+  const { data, currency, setCurrency, coin, setCoin } = useBitcoin();
 
-  const currencies = bitcoinData?.market_data?.current_price;
+  const currencies = data?.market_data?.current_price;
+  const coins = data?.market_data?.current_price;
 
   const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrency(event.target.value);
   };
 
+  const handleCoinChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCoin(event.target.value);
+  };
+
   return (
     <Container>
+      <Label htmlFor="coin-select">Select Coin:</Label>
+      <Select id="coin-select" value={coin} onChange={handleCoinChange}>
+        {coins && Object.keys(coins).map((coinCode) => (
+          <option key={coinCode} value={coinCode}>
+            {coinCode.toUpperCase()}
+          </option>
+        ))}
+      </Select>
       <Label htmlFor="currency-select">Select Currency:</Label>
       <Select id="currency-select" value={currency} onChange={handleCurrencyChange}>
         {currencies && Object.keys(currencies).map((currencyCode) => (

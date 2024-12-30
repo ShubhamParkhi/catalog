@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type BitcoinData = {
+type Data = {
   image: { large: string };
   name: string;
   symbol: string;
@@ -27,8 +27,8 @@ type MarketChartData = {
   total_volumes: [number, number][];
 };
 
-type BitcoinContextType = {
-  bitcoinData: BitcoinData | null;
+type ContextType = {
+  data: Data | null;
   marketChartData: MarketChartData | null;
   error: { message: string } | null;
   isLoading: boolean;
@@ -36,22 +36,25 @@ type BitcoinContextType = {
   setTime: (time: number) => void;
   currency: string;
   setCurrency: (currency: string) => void;
+  coin: string;
+  setCoin: (coin: string) => void;
 };
 
-const BitcoinContext = createContext<BitcoinContextType | undefined>(undefined);
+const Context = createContext<ContextType | undefined>(undefined);
 
-export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
-  const [bitcoinData, setBitcoinData] = useState<BitcoinData | null>(null);
+export const Provider = ({ children }: { children: ReactNode }) => {
+  const [data, setData] = useState<Data | null>(null);
   const [marketChartData, setMarketChartData] = useState<MarketChartData | null>(null);
   const [error, setError] = useState<{ message: string } | null>(null);
   const [currency, setCurrency] = useState<string>("usd");
+  const [coin, setCoin] = useState<string>("bitcoin");
   const [isLoading, setIsLoading] = useState(true);
   const [time, setTime] = useState(30);
 
   useEffect(() => {
-    const fetchBitcoinData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin', {
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coin}`, {
           method: 'GET',
           headers: {
             accept: 'application/json',
@@ -59,7 +62,7 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
           }
         });
         const data = await response.json();
-        setBitcoinData(data);
+        setData(data);
       } catch (err) {
         setError({ message: (err as Error).message });
       } finally {
@@ -69,7 +72,7 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchChartData = async () => {
       try {
-        const response = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${time}&interval=daily`, {
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=${currency}&days=${time}&interval=daily`, {
           method: 'GET',
           headers: {
             accept: 'application/json',
@@ -83,22 +86,22 @@ export const BitcoinProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    fetchBitcoinData();
+    fetchData();
     fetchChartData();
     const intervalId = setInterval(fetchChartData, 1000);
 
     return () => clearInterval(intervalId);
-  }, [time, currency]);
+  }, [coin, time, currency]);
 
   return (
-    <BitcoinContext.Provider value={{ bitcoinData, marketChartData, error, isLoading, time, setTime, currency, setCurrency }}>
+    <Context.Provider value={{ data, marketChartData, error, isLoading, time, setTime, coin, setCoin, currency, setCurrency }}>
       {children}
-    </BitcoinContext.Provider>
+    </Context.Provider>
   );
 };
 
 export const useBitcoin = () => {
-  const context = useContext(BitcoinContext);
+  const context = useContext(Context);
   if (context === undefined) {
     throw new Error('useBitcoin must be used within a BitcoinProvider');
   }

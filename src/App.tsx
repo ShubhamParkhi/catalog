@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { BitcoinProvider } from './context/BitcoinContext';
-import BitcoinSummary from './components/BitcoinDataFetcher';
-import BitcoinChart from './components/BitcoinChart';
-import BitcoinInfo from './components/BitcoinInfo';
-import BitcoinStatistics from './components/BitcoinStatistics';
-import BitcoinAnalysis from './components/BitcoinAnalysis';
-import BitcoinSettings from './components/BitcoinSettings';
+import { Provider } from './context/Context';
+import Summary from './components/DataFetcher';
+import Chart from './components/Chart';
+import Info from './components/Info';
+import Statistics from './components/Statistics';
+import Analysis from './components/Analysis';
+import Settings from './components/Settings';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -28,27 +28,27 @@ function App() {
   const renderComponent = () => {
     switch (activeComponent) {
       case 'Summary':
-        return <BitcoinSummary />;
+        return <Summary />;
       case 'Chart':
-        return <BitcoinChart />;
+        return <Chart />;
       case 'Statistics':
-        return <BitcoinStatistics />;
+        return <Statistics />;
       case 'Analysis':
-        return <BitcoinAnalysis />;
+        return <Analysis />;
       case 'Settings':
-        return <BitcoinSettings />;
+        return <Settings />;
       default:
-        return <BitcoinSummary />;
+        return <Summary />;
     }
   };
 
   return (
-    <BitcoinProvider>
+    <Provider>
       <Container>
-        <BitcoinInfo {...{setActiveComponent, activeComponent}} />
+        <Info {...{setActiveComponent, activeComponent}} />
         {renderComponent()}
       </Container>
-    </BitcoinProvider>
+    </Provider>
   );
 }
 

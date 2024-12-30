@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBitcoin } from '../context/BitcoinContext';
+import { useBitcoin } from '../context/Context';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -61,17 +61,17 @@ interface BitcoinInfoProps {
 }
 
 const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeComponent }) => {
-  const { bitcoinData, error, isLoading, currency } = useBitcoin();
+  const { data, error, isLoading, currency } = useBitcoin();
 
   if (error) {
     return <div>Error: {error.message}</div>;
   }
 
-  if (isLoading || !bitcoinData) {
+  if (isLoading || !data) {
     return <div>Loading...</div>;
   }
 
-  const { image, market_data } = bitcoinData;
+  const { image, market_data } = data;
   const { current_price, price_change_24h, price_change_percentage_24h } = market_data;
 
   return (

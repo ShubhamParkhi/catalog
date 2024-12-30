@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo } from 'react';
-import { useBitcoin } from '../context/BitcoinContext';
+import { useBitcoin } from '../context/Context';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,

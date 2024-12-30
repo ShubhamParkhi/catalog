@@ -1,5 +1,5 @@
-import { useBitcoin } from '../context/BitcoinContext';
-import { Container, Paragraph } from './BitcoinDataFetcher';
+import { useBitcoin } from '../context/Context';
+import { Container, Paragraph } from './DataFetcher';
 
 const currencySymbols: Record<string, string> = {
   usd: '$',
@@ -67,13 +67,13 @@ const currencySymbols: Record<string, string> = {
 };
 
 const BitcoinStatistics = () => {
-  const { bitcoinData, error, isLoading, currency } = useBitcoin();
+  const { data, error, isLoading, currency } = useBitcoin();
 
   if (error) {
     return <Container>Error: {error.message}</Container>;
   }
 
-  if (isLoading || !bitcoinData) {
+  if (isLoading || !data) {
     return <Container>Loading...</Container>;
   }
 
@@ -81,12 +81,12 @@ const BitcoinStatistics = () => {
 
   return (
     <Container>
-      <Paragraph><strong>Current Price:</strong> {symbol}{bitcoinData.market_data.current_price[currency]}</Paragraph>
-      <Paragraph><strong>ATH:</strong> {symbol}{bitcoinData.market_data.ath[currency]}</Paragraph>
-      <Paragraph><strong>Market Cap:</strong> {symbol}{bitcoinData.market_data.market_cap[currency]}</Paragraph>
-      <Paragraph><strong>Circulating Supply:</strong> {bitcoinData.market_data.circulating_supply}</Paragraph>
-      <Paragraph><strong>Sentiment Votes Up:</strong> {bitcoinData.sentiment_votes_up_percentage}%</Paragraph>
-      <Paragraph><strong>Sentiment Votes Down:</strong> {bitcoinData.sentiment_votes_down_percentage}%</Paragraph>
+      <Paragraph><strong>Current Price:</strong> {symbol}{data.market_data.current_price[currency]}</Paragraph>
+      <Paragraph><strong>ATH:</strong> {symbol}{data.market_data.ath[currency]}</Paragraph>
+      <Paragraph><strong>Market Cap:</strong> {symbol}{data.market_data.market_cap[currency]}</Paragraph>
+      <Paragraph><strong>Circulating Supply:</strong> {data.market_data.circulating_supply}</Paragraph>
+      <Paragraph><strong>Sentiment Votes Up:</strong> {data.sentiment_votes_up_percentage}%</Paragraph>
+      <Paragraph><strong>Sentiment Votes Down:</strong> {data.sentiment_votes_down_percentage}%</Paragraph>
     </Container>
   );
 };

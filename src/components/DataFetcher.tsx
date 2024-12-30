@@ -1,4 +1,4 @@
-import { useBitcoin } from '../context/BitcoinContext';
+import { useBitcoin } from '../context/Context';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -37,23 +37,23 @@ const Link = styled.a`
 `;
 
 const BitcoinSummary = () => {
-  const { bitcoinData, error, isLoading } = useBitcoin();
+  const { data, error, isLoading } = useBitcoin();
 
   if (error) {
     return <Container>Error: {error.message}</Container>;
   }
 
-  if (isLoading || !bitcoinData) {
+  if (isLoading || !data) {
     return <Container>Loading...</Container>;
   }
 
   return (
     <Container>
-      <Paragraph><strong>Name:</strong> {bitcoinData.name}</Paragraph>
-      <Paragraph><strong>Symbol:</strong> {bitcoinData.symbol}</Paragraph>
-      <StyledDescription dangerouslySetInnerHTML={{ __html: bitcoinData.description.en }} />
-      <Link href={bitcoinData.links.homepage[0]} target="_blank" rel="noopener noreferrer">Homepage</Link>
-      <Link href={bitcoinData.links.whitepaper} target="_blank" rel="noopener noreferrer">Whitepaper</Link>
+      <Paragraph><strong>Name:</strong> {data.name}</Paragraph>
+      <Paragraph><strong>Symbol:</strong> {data.symbol}</Paragraph>
+      <StyledDescription dangerouslySetInnerHTML={{ __html: data.description.en }} />
+      <Link href={data.links.homepage[0]} target="_blank" rel="noopener noreferrer">Homepage</Link>
+      <Link href={data.links.whitepaper} target="_blank" rel="noopener noreferrer">Whitepaper</Link>
     </Container>
   );
 };
