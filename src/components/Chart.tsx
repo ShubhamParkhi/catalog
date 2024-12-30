@@ -32,7 +32,7 @@ const StyledButton = styled.button<{ isSelected?: boolean }>`
   font-family: 'Circular Std', sans-serif;
   font-size: 24px;
   font-weight: 400;
-  border: 0;
+  border: none;
   background: transparent;
   cursor: pointer;
   padding: 1rem 2rem;

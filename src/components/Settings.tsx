@@ -9,12 +9,12 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: 18px;
+  font-size: 24px;
   margin-right: 10px;
 `;
 
 const Select = styled.select`
-  font-size: 18px;
+  font-size: 24px;
   padding: 5px;
   border: none;
   &:focus {
