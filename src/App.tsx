@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Provider } from './context/Context';
 import Summary from './components/Summary';
 import Chart from './components/Chart';
@@ -23,7 +23,11 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [activeComponent, setActiveComponent] = useState('Chart');
+  const [activeComponent, setActiveComponent] = useState(localStorage.getItem('activeComponent') || 'Chart');
+
+  useEffect(() => {
+    localStorage.setItem('activeComponent', activeComponent);
+  }, [activeComponent]);
 
   const renderComponent = () => {
     switch (activeComponent) {

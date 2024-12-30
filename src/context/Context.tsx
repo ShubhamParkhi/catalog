@@ -46,10 +46,10 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<Data | null>(null);
   const [marketChartData, setMarketChartData] = useState<MarketChartData | null>(null);
   const [error, setError] = useState<{ message: string } | null>(null);
-  const [currency, setCurrency] = useState<string>("usd");
-  const [coin, setCoin] = useState<string>("bitcoin");
+  const [currency, setCurrency] = useState<string>(() => localStorage.getItem('currency') || "usd");
+  const [coin, setCoin] = useState<string>(() => localStorage.getItem('coin') || "bitcoin");
   const [isLoading, setIsLoading] = useState(true);
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState<number>(() => parseInt(localStorage.getItem('time') || "30", 10));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +92,18 @@ export const Provider = ({ children }: { children: ReactNode }) => {
 
     return () => clearInterval(intervalId);
   }, [coin, time, currency]);
+
+  useEffect(() => {
+    localStorage.setItem('currency', currency);
+  }, [currency]);
+
+  useEffect(() => {
+    localStorage.setItem('coin', coin);
+  }, [coin]);
+
+  useEffect(() => {
+    localStorage.setItem('time', time.toString());
+  }, [time]);
 
   return (
     <Context.Provider value={{ data, marketChartData, error, isLoading, time, setTime, coin, setCoin, currency, setCurrency }}>
