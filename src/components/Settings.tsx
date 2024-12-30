@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   padding: 20px;
+  display: flex;
+  gap: 1rem;
 `;
 
 const Label = styled.label`
@@ -14,6 +16,10 @@ const Label = styled.label`
 const Select = styled.select`
   font-size: 18px;
   padding: 5px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Settings = () => {
@@ -44,6 +50,7 @@ const Settings = () => {
 
   return (
     <Container>
+      <div>
       <Label htmlFor="coin-select">Select Coin:</Label>
       <Select id="coin-select" value={coin} onChange={handleCoinChange}>
         {coins.map((coinName) => (
@@ -52,6 +59,8 @@ const Settings = () => {
           </option>
         ))}
       </Select>
+      </div>
+      <div>
       <Label htmlFor="currency-select">Select Currency:</Label>
       <Select id="currency-select" value={currency} onChange={handleCurrencyChange}>
         {currencies && Object.keys(currencies).map((currencyCode) => (
@@ -60,6 +69,7 @@ const Settings = () => {
           </option>
         ))}
       </Select>
+      </div>
     </Container>
   );
 };
