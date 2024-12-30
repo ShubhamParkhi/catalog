@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBitcoin } from '../context/Context';
+import { useCoin } from '../context/Context';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -55,13 +55,13 @@ const ButtonGroup = styled.div`
   border-bottom: 2px solid #EFF1F3;
 `;
 
-interface BitcoinInfoProps {
+interface InfoProps {
   setActiveComponent: (component: string) => void;
   activeComponent: string;
 }
 
-const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeComponent }) => {
-  const { data, error, isLoading, currency } = useBitcoin();
+const Info: React.FC<InfoProps> = ({ setActiveComponent, activeComponent }) => {
+  const { data, error, isLoading, currency } = useCoin();
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -77,7 +77,7 @@ const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeCom
   return (
     <>
       <Container>
-        <Image src={image.large} alt="Bitcoin" />
+        <Image src={image.large} alt={data.name} />
         <div>
           <Title>
             {current_price[currency]}
@@ -103,4 +103,4 @@ const BitcoinInfo: React.FC<BitcoinInfoProps> = ({ setActiveComponent, activeCom
   );
 };
 
-export default BitcoinInfo;
+export default Info;

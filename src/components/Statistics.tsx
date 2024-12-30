@@ -1,5 +1,5 @@
-import { useBitcoin } from '../context/Context';
-import { Container, Paragraph } from './DataFetcher';
+import { useCoin } from '../context/Context';
+import { Container, Paragraph } from './Summary';
 
 const currencySymbols: Record<string, string> = {
   usd: '$',
@@ -66,8 +66,8 @@ const currencySymbols: Record<string, string> = {
   sats: 'Sats'
 };
 
-const BitcoinStatistics = () => {
-  const { data, error, isLoading, currency } = useBitcoin();
+const Statistics = () => {
+  const { data, error, isLoading, currency } = useCoin();
 
   if (error) {
     return <Container>Error: {error.message}</Container>;
@@ -91,4 +91,4 @@ const BitcoinStatistics = () => {
   );
 };
 
-export default BitcoinStatistics;
+export default Statistics;

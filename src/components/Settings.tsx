@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBitcoin } from '../context/Context';
+import { useCoin } from '../context/Context';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -16,8 +16,8 @@ const Select = styled.select`
   padding: 5px;
 `;
 
-const BitcoinSettings = () => {
-  const { data, currency, setCurrency, coin, setCoin } = useBitcoin();
+const Settings = () => {
+  const { data, currency, setCurrency, coin, setCoin } = useCoin();
 
   const currencies = data?.market_data?.current_price;
   const coins = data?.market_data?.current_price;
@@ -52,4 +52,4 @@ const BitcoinSettings = () => {
   );
 };
 
-export default BitcoinSettings;
+export default Settings;

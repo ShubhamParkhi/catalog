@@ -1,4 +1,4 @@
-import { useBitcoin } from '../context/Context';
+import { useCoin } from '../context/Context';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -36,8 +36,8 @@ const Link = styled.a`
   }
 `;
 
-const BitcoinSummary = () => {
-  const { data, error, isLoading } = useBitcoin();
+const Summary = () => {
+  const { data, error, isLoading } = useCoin();
 
   if (error) {
     return <Container>Error: {error.message}</Container>;
@@ -58,4 +58,4 @@ const BitcoinSummary = () => {
   );
 };
 
-export default BitcoinSummary;
+export default Summary;

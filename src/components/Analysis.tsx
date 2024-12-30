@@ -1,8 +1,8 @@
-import { useBitcoin } from '../context/Context';
-import { Container, Paragraph } from './DataFetcher';
+import { useCoin } from '../context/Context';
+import { Container, Paragraph } from './Summary';
 
-const BitcoinAnalysis = () => {
-  const { data, error, isLoading } = useBitcoin();
+const Analysis = () => {
+  const { data, error, isLoading } = useCoin();
 
   if (error) {
     return <Container>Error: {error.message}</Container>;
@@ -21,4 +21,4 @@ const BitcoinAnalysis = () => {
   );
 };
 
-export default BitcoinAnalysis;
+export default Analysis;

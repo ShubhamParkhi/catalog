@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo } from 'react';
-import { useBitcoin } from '../context/Context';
+import { useCoin } from '../context/Context';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -55,8 +55,8 @@ const ButtonGroup = styled.div`
   padding: 0 1rem;
 `;
 
-const BitcoinChart = () => {
-    const { marketChartData, isLoading, error, time, setTime, currency } = useBitcoin();
+const Chart = () => {
+    const { marketChartData, isLoading, error, time, setTime, currency } = useCoin();
     const [isFullScreen, setIsFullScreen] = useState(false);
     const chartRef = useRef<HTMLDivElement>(null);
 
@@ -166,4 +166,4 @@ const BitcoinChart = () => {
     );
 };
 
-export default BitcoinChart; 
+export default Chart; 

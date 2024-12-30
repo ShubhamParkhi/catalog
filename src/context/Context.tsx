@@ -100,10 +100,10 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useBitcoin = () => {
+export const useCoin = () => {
   const context = useContext(Context);
   if (context === undefined) {
-    throw new Error('useBitcoin must be used within a BitcoinProvider');
+    throw new Error('useCoin must be used within a CoinProvider');
   }
   return context;
 }; 

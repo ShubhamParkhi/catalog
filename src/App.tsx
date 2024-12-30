@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Provider } from './context/Context';
-import Summary from './components/DataFetcher';
+import Summary from './components/Summary';
 import Chart from './components/Chart';
 import Info from './components/Info';
 import Statistics from './components/Statistics';
