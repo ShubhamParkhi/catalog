@@ -88,7 +88,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
 
     fetchData();
     fetchChartData();
-    const intervalId = setInterval(fetchChartData, 1000);
+    const intervalId = setInterval(fetchData, 5000);
 
     return () => clearInterval(intervalId);
   }, [coin, time, currency]);
