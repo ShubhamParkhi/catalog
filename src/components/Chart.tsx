@@ -56,7 +56,7 @@ const ButtonGroup = styled.div`
 `;
 
 const Chart = () => {
-    const { marketChartData, isLoading, error, time, setTime, currency } = useCoin();
+    const { coin, marketChartData, isLoading, error, time, setTime, currency } = useCoin();
     const [isFullScreen, setIsFullScreen] = useState(false);
     const chartRef = useRef<HTMLDivElement>(null);
 
@@ -82,7 +82,7 @@ const Chart = () => {
         ),
         datasets: [
             {
-                label: `Bitcoin Price (${currency.toUpperCase()})`,
+                label: `${coin.charAt(0).toUpperCase() + coin.slice(1)} Price (${currency.toUpperCase()})`,
                 data: marketChartData?.prices.map(price => price[1]),
                 borderColor: 'rgba(75, 64, 238, 1)',
                 tension: 0.5

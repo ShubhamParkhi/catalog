@@ -20,7 +20,19 @@ const Settings = () => {
   const { data, currency, setCurrency, coin, setCoin } = useCoin();
 
   const currencies = data?.market_data?.current_price;
-  const coins = data?.market_data?.current_price;
+  const coins = [
+    'bitcoin', 
+    'ethereum', 
+    'ripple', 
+    'binancecoin', 
+    'solana', 
+    'dogecoin', 
+    'cardano', 
+    'tron', 
+    'avalanche-2', 
+    'the-open-network', 
+    'chainlink'
+  ];
 
   const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrency(event.target.value);
@@ -34,9 +46,9 @@ const Settings = () => {
     <Container>
       <Label htmlFor="coin-select">Select Coin:</Label>
       <Select id="coin-select" value={coin} onChange={handleCoinChange}>
-        {coins && Object.keys(coins).map((coinCode) => (
-          <option key={coinCode} value={coinCode}>
-            {coinCode.toUpperCase()}
+        {coins.map((coinName) => (
+          <option key={coinName} value={coinName}>
+            {coinName.charAt(0).toUpperCase() + coinName.slice(1)}
           </option>
         ))}
       </Select>
@@ -44,7 +56,7 @@ const Settings = () => {
       <Select id="currency-select" value={currency} onChange={handleCurrencyChange}>
         {currencies && Object.keys(currencies).map((currencyCode) => (
           <option key={currencyCode} value={currencyCode}>
-            {currencyCode.toUpperCase()}
+            {currencyCode.charAt(0).toUpperCase() + currencyCode.slice(1)}
           </option>
         ))}
       </Select>
